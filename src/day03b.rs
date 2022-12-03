@@ -1,8 +1,15 @@
+// This is day03 with part 1 written to use a HashSet instead
+// of my old school array-as-set technique to see how much
+// slower it is. Original runs in ~100μs.  Just changing
+// part 1 runs in ~270μs.  Not bothering to update
+// part 2.
+
 use crate::Solution;
 use crate::AppArgs;
 use std::fs::{File};
 use std::io::{BufReader,BufRead};
 use anyhow::{Result,Context};
+use std::collections::HashSet;
 
 pub fn solve(args: &AppArgs) -> Result<Solution> {
 
@@ -11,7 +18,7 @@ pub fn solve(args: &AppArgs) -> Result<Solution> {
                 .with_context(|| format!("Opening file: {}", &input_path) )? );
 
 
-  let mut bp_contents:[u8;256] = [0;256];
+  let mut bp_contents = HashSet::new();
 
   let mut backpacks:[ [u8;3]; 256] = [[0;3]; 256];
 
@@ -32,24 +39,24 @@ pub fn solve(args: &AppArgs) -> Result<Solution> {
 
     let n = line.len()/2;
     // Record which characters appear in the first half.
-    bytes.iter().take(n).for_each(|&c| bp_contents[c as usize] = 1);
-
+    bytes.iter().take(n).for_each(|c| {bp_contents.insert(*c);} );
     // Determine which character in the second half showed up in the first half.
     for &b in &bytes[n..2*n] {
-      if bp_contents[b as usize] == 1 {
+      if bp_contents.contains(&b) {
         star1 += letter_score[b as usize] as i64;
-        break;
+        break;        
       }
     }
+    bp_contents.clear();
 
-    // Clear the list of first half characters.
-    bytes.iter().take(n).for_each(|&c| bp_contents[c as usize] = 0);
  
     // Star 2 computation
     let bp_group_index = j%3;
 
     // Record the list of all objects in this backpack.
-    bytes.iter().for_each(|&b| backpacks[b as usize][bp_group_index] = 1 );
+    for &b in bytes {
+      backpacks[b as usize][bp_group_index] = 1;
+    }
 
     // If we're at a multiple of 3, check which object appears in all three backpacks
     if (j%3) == 2 {
