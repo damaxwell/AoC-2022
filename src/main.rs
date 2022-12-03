@@ -1,5 +1,6 @@
 mod day01;
 mod day02;
+mod day03;
 
 use std::fmt;
 use std::time::Instant;
@@ -14,6 +15,7 @@ lazy_static! {
     let mut m = HashMap::new();
     m.insert("01",day01::solve as Solver);
     m.insert("02",day02::solve as Solver);
+    m.insert("03",day03::solve as Solver);
     m
   };
 }
