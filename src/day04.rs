@@ -51,6 +51,7 @@ impl Scanner {
     }
   }
 
+  #[allow(unused)]
   fn next_i64(&mut self) -> Option<i64> {
     let mut q = self.p;
     let mut sign = 1;
@@ -105,15 +106,15 @@ pub fn solve(args: &AppArgs) -> Result<Solution> {
 
   while !scan.is_eof() {
 
-    let p0 = scan.next_i64().unwrap();
+    let p0 = scan.next_u64().unwrap();
     scan.expect(b'-').unwrap();
-    let p1 = scan.next_i64().unwrap();
+    let p1 = scan.next_u64().unwrap();
 
     scan.expect(b',').unwrap();
 
-    let q0 = scan.next_i64().unwrap();
+    let q0 = scan.next_u64().unwrap();
     scan.expect(b'-').unwrap();
-    let q1 = scan.next_i64().unwrap();
+    let q1 = scan.next_u64().unwrap();
 
     if scan.expect(b'\n').is_none() {
       if !scan.is_eof() {
@@ -122,8 +123,8 @@ pub fn solve(args: &AppArgs) -> Result<Solution> {
     }
 
     println!("{} {} {} {}",p0,p1,q0,q1);
-    let task1 = IPair::new(p0 as u64, p1 as u64);
-    let task2 = IPair::new(q0 as u64, q1 as u64);
+    let task1 = IPair::new(p0, p1);
+    let task2 = IPair::new(q0, q1);
 
     if task1.contains(&task2) || task2.contains(&task1)
     {

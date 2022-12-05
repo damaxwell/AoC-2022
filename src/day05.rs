@@ -1,14 +1,14 @@
 use crate::Solution;
 use crate::AppArgs;
 use std::fs::{File};
-use std::io::{BufReader,Read};
+use std::io::{BufReader};
 use std::io::{BufRead};
-use anyhow::{anyhow,Result,Context};
+use anyhow::{Result,Context};
 
 pub fn solve(args: &AppArgs) -> Result<Solution> {
 
   let input_path = args.input_file_path();
-  let mut r = BufReader::new( File::open( &input_path )
+  let r = BufReader::new( File::open( &input_path )
                 .with_context(|| format!("Opening file: {}", &input_path) )? );
 
   let mut stacks = Vec::new();
@@ -47,7 +47,7 @@ pub fn solve(args: &AppArgs) -> Result<Solution> {
     words.next();
     let to = words.next().unwrap().parse::<usize>()?;
 
-    for k in 0..amount {
+    for _ in 0..amount {
       let c = stacks[from-1].pop().unwrap();
       stacks[to-1].push(c);
     }
@@ -68,8 +68,8 @@ pub fn solve(args: &AppArgs) -> Result<Solution> {
   stacks_2.iter().for_each(|s| print!("{}", *s.last().unwrap() ) );
   println!("");
 
-  let mut star1 = 0;
-  let mut star2 = 0;
+  let star1 = 0;
+  let star2 = 0;
 
   Ok( Solution::from_i64( star1, star2 ) )  
 }
