@@ -5,6 +5,10 @@ mod day03b;
 mod day04;
 mod day05;
 mod day06;
+mod day07;
+mod day08;
+mod day09;
+mod day10;
 
 use std::fmt;
 use std::time::Instant;
@@ -24,6 +28,10 @@ lazy_static! {
     m.insert("04",day04::solve as Solver);
     m.insert("05",day05::solve as Solver);
     m.insert("06",day06::solve as Solver);
+    m.insert("07",day07::solve as Solver);
+    m.insert("08",day08::solve as Solver);
+    m.insert("09",day09::solve as Solver);
+    m.insert("10",day10::solve as Solver);
     m
   };
 }
